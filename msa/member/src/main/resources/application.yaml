@@ -17,13 +17,13 @@ spring:
     redis:
       host: localhost
       port: 6379
+      password: ${REDIS_PASSWORD:1}
 app:
   frontend:
     url: http://localhost:5173
   cookie:
     secure: false # localhost 면 false
     same-site: Lax
-    access-token-name: access_token
     refresh-token-name: refresh_token
 auth:
   access-token-secret: ${JWT_SECRET:qkxSN1Y9eZUJN7FrqGrZ1antggnBvfXplgh9T5qOzs29V8DlfCm/pcZKmlsooChcEvSqidmIUmGKy8xjlKUBqg}

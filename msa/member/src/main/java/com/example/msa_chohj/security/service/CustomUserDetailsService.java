@@ -18,7 +18,7 @@ public class CustomUserDetailsService  implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public @NonNull UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public @NonNull UserDetails loadUserByUsername(@NonNull String email) throws UsernameNotFoundException {
         Member user = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("이메일 또는 비밀번호가 올바르지 않습니다."));
         return new CustomUserDetails(user);

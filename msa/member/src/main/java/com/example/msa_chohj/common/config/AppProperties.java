@@ -14,7 +14,6 @@ public record AppProperties(
     public record Cookie(
             boolean secure,
             String sameSite,
-            String accessTokenName,
             String refreshTokenName
     ) {}
 }

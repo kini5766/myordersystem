@@ -21,6 +21,10 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    public Boolean existsUser(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
     public Long save(MemberSaveRequestDTO memberSaveRequestDTO) {
         Optional<Member> optionalMember = memberRepository.findByEmail(memberSaveRequestDTO.getEmail());
         if (optionalMember.isPresent()) {
@@ -29,10 +33,6 @@ public class MemberService {
         String password = passwordEncoder.encode(memberSaveRequestDTO.getPassword());
         Member member = memberRepository.save(memberSaveRequestDTO.toEntity(password));
         return member.getId();
-    }
-
-    public Boolean existsUser(String email) {
-        return memberRepository.existsByEmail(email);
     }
 
     public MemberResponseDTO readMember(Long id) {

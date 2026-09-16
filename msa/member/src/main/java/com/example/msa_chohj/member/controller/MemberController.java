@@ -1,6 +1,7 @@
 package com.example.msa_chohj.member.controller;
 
 import com.example.msa_chohj.member.dto.*;
+import com.example.msa_chohj.member.service.SocialAccountService;
 import com.example.msa_chohj.security.service.CustomOAuth2UserService;
 import com.example.msa_chohj.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
-    private final CustomOAuth2UserService oAuth2UserService;
+    private final SocialAccountService socialAccountService;
 
     @PostMapping("/create")
     public ResponseEntity<?> memberCreateApi(@RequestBody MemberSaveRequestDTO memberSaveRequestDTO) {
@@ -35,7 +36,7 @@ public class MemberController {
         if (exists) {
             return ResponseEntity.ok(true);
         }
-        return ResponseEntity.ok(oAuth2UserService.existsByEmail(email));
+        return ResponseEntity.ok(socialAccountService.existsByEmail(email));
     }
 
     @GetMapping("/info")
@@ -47,7 +48,7 @@ public class MemberController {
     @GetMapping("/mySocialList")
     public ResponseEntity<?> mySocialListApi() {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(oAuth2UserService.mySocialList(Long.parseLong(id)));
+        return ResponseEntity.ok(socialAccountService.mySocialList(Long.parseLong(id)));
     }
 
     // -- service to service --

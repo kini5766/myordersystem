@@ -12,19 +12,20 @@ import java.util.Map;
 
 public class CustomOAuth2User implements OAuth2User {
 
-    private final Map<String, Object> attributes;
+    private final String sub;
     private final Collection<? extends GrantedAuthority> authorities;
-    private final Long memberId;
+    private final Map<String, Object> attributes;
 
     public CustomOAuth2User(Map<String, Object> attributes, Member member, SocialAccount social) {
-        this.attributes = attributes;
+        this.sub = String.valueOf(member.getId());
         this.authorities = CustomUserDetails.toAuthorities(member.getRoles());
-        this.memberId = member.getId();
+        this.attributes = attributes;
     }
 
+    // jwt 토큰 sub
     @Override
-    public @NonNull Map<String, Object> getAttributes() {
-        return attributes;
+    public @NonNull String getName() {
+        return sub;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     @Override
-    public @NonNull String getName() {
-        return memberId.toString();
+    public @NonNull Map<String, Object> getAttributes() {
+        return attributes;
     }
 }

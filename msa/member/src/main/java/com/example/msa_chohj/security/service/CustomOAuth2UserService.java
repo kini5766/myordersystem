@@ -26,12 +26,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        System.out.println("loadUser");
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         SocialProviderType providerType;
         Map<String, Object> attributes;
-        String id;
+        String providerId;
         String email;
         String nickname;
 
@@ -39,20 +38,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         if (SocialProviderType.NAVER.name().equals(registrationId)) {
             providerType = SocialProviderType.NAVER;
             attributes = (Map<String, Object>) oAuth2User.getAttributes().get("response");
-            id = registrationId + "_" + attributes.get("id");
+            providerId = attributes.get("id").toString();
             email = attributes.get("email").toString();
             nickname = attributes.get("nickname").toString();
         } else if (SocialProviderType.GOOGLE.name().equals(registrationId)) {
             providerType = SocialProviderType.GOOGLE;
             attributes = oAuth2User.getAttributes();
-            id = registrationId + "_" + attributes.get("sub");
+            providerId = attributes.get("sub").toString();
             email = attributes.get("email").toString();
             nickname = attributes.get("name").toString();
         } else {
             throw new OAuth2AuthenticationException("지원하지 않은 소셜 로그인입니다.");
         }
         Member member = findOrCreateMember(email, nickname);
-        SocialAccount socialAccount = new SocialAccount(id, providerType, member.getEmail(), member.getId());
+        SocialAccount socialAccount = new SocialAccount(registrationId + "_" + providerId, providerType, email, member.getId());
         socialAccountRepository.save(socialAccount);
         return new CustomOAuth2User(attributes, member, socialAccount);
     }
@@ -73,16 +72,5 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
             return memberRepository.save(newMember);
         }
-    }
-
-    public Boolean existsByEmail(String email) {
-        return socialAccountRepository.existsByEmail(email);
-    }
-
-    public List<SocialDTO> mySocialList(Long memberId) {
-        return socialAccountRepository.findByMemberId(memberId)
-                .stream()
-                .map(social -> new SocialDTO(social.getProviderType()))
-                .toList();
     }
 }
