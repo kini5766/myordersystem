@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+
 @Component
 public class InitialDataLoader implements CommandLineRunner {
     private final MemberRepository memberRepository;
@@ -23,7 +25,7 @@ public class InitialDataLoader implements CommandLineRunner {
                 .name("admin")
                 .email("admin@naver.com")
                 .password(passwordEncoder.encode("12341234"))
-                .role(Role.ADMIN)
+                .roles(Set.of(Role.ADMIN))
                 .build();
         memberRepository.save(member);
     }

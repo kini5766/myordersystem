@@ -1,6 +1,5 @@
 package com.example.msa_chohj.security.filter;
 
-import com.example.msa_chohj.member.controller.AuthController;
 import com.example.msa_chohj.security.service.CustomUserDetailsService;
 import com.example.msa_chohj.security.jwt.JwtTokenProvider;
 import com.example.msa_chohj.security.jwt.JwtTokenResolver;

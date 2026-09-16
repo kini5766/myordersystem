@@ -1,0 +1,17 @@
+package com.example.msa_chohj;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.kafka.annotation.EnableKafka;
+
+@EnableKafka
+@EnableFeignClients
+@SpringBootApplication
+public class ProductApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProductApplication.class, args);
+	}
+
+}
