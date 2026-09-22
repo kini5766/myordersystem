@@ -9,8 +9,8 @@ CREATE TABLE member (
     name                 VARCHAR(255),
     enabled              BOOLEAN NOT NULL DEFAULT TRUE,
     account_non_locked   BOOLEAN NOT NULL DEFAULT TRUE,
-    creation_date        TIMESTAMP,
-    update_date          TIMESTAMP,
+    created_date         TIMESTAMP,
+    updated_date         TIMESTAMP,
     CONSTRAINT uk_member_email UNIQUE (email)
 );
 select * from member;
@@ -32,7 +32,6 @@ CREATE TABLE social_account (
     member_id       BIGINT NOT NULL,
     creation_date   TIMESTAMP,
     update_date     TIMESTAMP,
-    
     CONSTRAINT fk_social_account_member
         FOREIGN KEY (member_id) REFERENCES member (id)
 );
