@@ -13,3 +13,18 @@ CREATE TABLE product (
     updated_date    DATETIME
 );
 select * from product;
+
+drop table product_edit;
+CREATE TABLE product_edit (
+    edit_id         BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    product_id      BIGINT,
+    member_id       BIGINT NOT NULL,
+    name            VARCHAR(255),
+    price           INT,
+    stock_quantity  INT,
+    name            VARCHAR(255),
+    is_lock         TINYINT(1) NOT NULL DEFAULT 0,
+    created_date    DATETIME,
+    updated_date    DATETIME
+);
+select * from product_edit;
