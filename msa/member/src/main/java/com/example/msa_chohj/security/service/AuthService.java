@@ -1,13 +1,10 @@
 package com.example.msa_chohj.security.service;
 
-import com.example.msa_chohj.common.config.AppProperties;
 import com.example.msa_chohj.member.dto.AuthTokenResponseDTO;
 import com.example.msa_chohj.member.dto.RefreshDTO;
 import com.example.msa_chohj.security.dao.RefreshTokenDAO;
 import com.example.msa_chohj.security.jwt.JwtTokenProvider;
-import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
@@ -23,21 +20,17 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenDAO refreshTokenDAO;
     private final CustomUserDetailsService userDetailsService;
-    private final AppProperties appProperties;
 
     private final UserDetailsChecker userDetailsChecker = new AccountStatusUserDetailsChecker();
 
     public void removeRefresh(String rawRefreshToken) {
-        String tokenHash = RefreshTokenDAO.hash(rawRefreshToken);
-        refreshTokenDAO.deleteTokenHash(tokenHash);
+        refreshTokenDAO.deleteTokenHash(rawRefreshToken);
     }
 
     public AuthTokenResponseDTO refreshRotate(RefreshDTO request) {
         String requestRawRefresh = request.refreshToken();
 
-        String oldHash = RefreshTokenDAO.hash(requestRawRefresh);
-
-        Optional<String> optionalSub = refreshTokenDAO.findAndDelete(oldHash);
+        Optional<String> optionalSub = refreshTokenDAO.findAndDelete(requestRawRefresh);
         if (optionalSub.isEmpty()) {
             throw new IllegalArgumentException("Invalid refresh token");
         }
@@ -69,40 +62,6 @@ public class AuthService {
         String newRawRefresh = refreshTokenDAO.generateAndSave(sub);
         String newAccessToken = jwtTokenProvider.createToken(sub, userDetails.getAuthorities());
         return new AuthTokenResponseDTO(userId, newAccessToken, newRawRefresh);
-    }
-
-    public AuthTokenResponseDTO cookie2Header(Cookie[] cookies) {
-        if (cookies == null) {
-            throw new RuntimeException("쿠키가 존재하지 않습니다.");
-        }
-        String refreshToken = extractCookie(cookies, appProperties.cookie().refreshTokenName());
-        if (refreshToken == null) {
-            throw new RuntimeException("refreshToken 쿠키가 존재하지 않습니다.");
-        }
-        return refreshRotate(new RefreshDTO(refreshToken));
-    }
-
-    public ResponseCookie emptyCookieRefreshToken() {
-        return emptyCookie(appProperties.cookie().refreshTokenName());
-    }
-
-    private ResponseCookie emptyCookie(String name) {
-        return ResponseCookie.from(name, "")
-                .httpOnly(true)
-                .secure(appProperties.cookie().secure())
-                .path("/")
-                .maxAge(0)
-                .sameSite(appProperties.cookie().sameSite())
-                .build();
-    }
-
-    private String extractCookie(Cookie[] cookies, String name) {
-        for (Cookie cookie : cookies) {
-            if (name.equals(cookie.getName())) {
-                return cookie.getValue();
-            }
-        }
-        return null;
     }
 
     private UserDetails findAndValidateUser(String sub) {

@@ -21,7 +21,7 @@ import java.io.IOException;
 public class SocialSuccessHandler implements AuthenticationSuccessHandler {
     public static final String REDIRECT_LOCATION = "/cookie";
 
-    private final AuthService authTokenDAO;
+    private final AuthService authService;
     private final AppProperties appProperties;
     private final AuthProperties authProperties;
 
@@ -30,18 +30,22 @@ public class SocialSuccessHandler implements AuthenticationSuccessHandler {
         // authentication.getName() => CustomOAuth2User 의 getName 과 동일한 값
         String sub = authentication.getName();
 
-        AuthTokenResponseDTO tokens = authTokenDAO.issueTokens(sub);
+        AuthTokenResponseDTO tokens = authService.issueTokens(sub);
 
-        ResponseCookie refreshCookie = ResponseCookie.from(appProperties.cookie().refreshTokenName(), tokens.refreshToken())
+        ResponseCookie refreshCookie = refreshCookie(tokens.refreshToken());
+
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
+
+        response.sendRedirect(appProperties.frontend().url() + REDIRECT_LOCATION);
+    }
+
+    public ResponseCookie refreshCookie(String rawRefreshToken) {
+        return ResponseCookie.from(appProperties.cookie().refreshTokenName(), rawRefreshToken)
                 .httpOnly(true)
                 .secure(appProperties.cookie().secure())
                 .path("/")
                 .maxAge(authProperties.refreshTokenExpiration())
                 .sameSite(appProperties.cookie().sameSite())
                 .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
-
-        response.sendRedirect(appProperties.frontend().url() + REDIRECT_LOCATION);
     }
 }
