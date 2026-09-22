@@ -1,2 +1,0 @@
-CREATE DATABASE chohj_member ENCODING 'UTF8';
-DROP DATABASE chohj_member;
