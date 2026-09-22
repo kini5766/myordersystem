@@ -1,6 +1,7 @@
 drop database if exists chohj_product;
 create database chohj_product character set utf8;
 
+drop table product;
 CREATE TABLE product (
     id              BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name            VARCHAR(255),
@@ -11,3 +12,4 @@ CREATE TABLE product (
     created_date    DATETIME,
     updated_date    DATETIME
 );
+select * from product;

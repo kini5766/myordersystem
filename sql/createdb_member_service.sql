@@ -30,8 +30,8 @@ CREATE TABLE social_account (
     provider_type   VARCHAR(255) NOT NULL,
     email           VARCHAR(255),
     member_id       BIGINT NOT NULL,
-    creation_date   TIMESTAMP,
-    update_date     TIMESTAMP,
+    created_date   TIMESTAMP,
+    updated_date     TIMESTAMP,
     CONSTRAINT fk_social_account_member
         FOREIGN KEY (member_id) REFERENCES member (id)
 );

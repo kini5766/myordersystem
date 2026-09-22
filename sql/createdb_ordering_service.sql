@@ -1,6 +1,7 @@
 drop database if exists chohj_ordering;
 create database chohj_ordering character set utf8;
 
+drop table ordering;
 CREATE TABLE ordering (
     id              BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     product_id      BIGINT NOT NULL,
@@ -11,3 +12,4 @@ CREATE TABLE ordering (
     created_date    DATETIME,
     updated_date    DATETIME
 );
+select * from ordering;
