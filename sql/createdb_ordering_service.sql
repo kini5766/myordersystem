@@ -8,6 +8,6 @@ CREATE TABLE ordering (
     quantity        INT NOT NULL,
     payment         INT NOT NULL,
     order_status    VARCHAR(255),
-    creation_date   DATETIME,
-    update_date     DATETIME
+    created_date    DATETIME,
+    updated_date    DATETIME
 );

@@ -7,11 +7,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@MappedSuperclass
 @Getter
-public class BaseTimeEntity {
+@MappedSuperclass
+public abstract class BaseTimeEntity {
+
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    protected LocalDateTime createdDate;
+
     @UpdateTimestamp
-    private LocalDateTime updateDate;
+    protected LocalDateTime updatedDate;
 }

@@ -8,6 +8,6 @@ CREATE TABLE product (
     stock_quantity  INT,
     is_lock         TINYINT(1) NOT NULL DEFAULT 0,
     member_id       BIGINT NOT NULL,
-    creation_date   DATETIME,
-    update_date     DATETIME
+    created_date    DATETIME,
+    updated_date    DATETIME
 );

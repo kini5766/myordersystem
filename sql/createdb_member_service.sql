@@ -13,6 +13,7 @@ CREATE TABLE member (
     update_date          TIMESTAMP,
     CONSTRAINT uk_member_email UNIQUE (email)
 );
+select * from member;
 
 drop table member_roles;
 CREATE TABLE member_roles (
@@ -21,6 +22,7 @@ CREATE TABLE member_roles (
     CONSTRAINT member_roles_pkey PRIMARY KEY (member_id, role),
     CONSTRAINT fk_member_roles_member FOREIGN KEY (member_id) REFERENCES member (id)
 );
+select * from member_roles;
 
 drop table social_account;
 CREATE TABLE social_account (
@@ -29,5 +31,9 @@ CREATE TABLE social_account (
     email           VARCHAR(255),
     member_id       BIGINT NOT NULL,
     creation_date   TIMESTAMP,
-    update_date     TIMESTAMP
+    update_date     TIMESTAMP,
+    
+    CONSTRAINT fk_social_account_member
+        FOREIGN KEY (member_id) REFERENCES member (id)
 );
+select * from social_account;
