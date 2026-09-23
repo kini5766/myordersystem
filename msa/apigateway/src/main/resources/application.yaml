@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8081
 
 # eureka 서버에게 질의하기 위해 필요하며, 모든 모듈에 공통으로 필요
 # defaultZone: http://localhost:8761/eureka/  => eureka 서버의 위치정보 명시
@@ -34,6 +34,7 @@ spring:
             - id: member-service
               predicates:
                 - Path=/member-service/**      # 이 패턴인 경우  uri: lb://member-service 로 가겠다.
+                - Path=/login/oauth2/**
               filters:
                 # StripPrefix : 첫번째 접두어(member-service)를 제거후에 member-service로 http요청 전달
                 - StripPrefix=1
@@ -51,6 +52,12 @@ spring:
               filters:
                 - StripPrefix=1
               uri: lb://product-service
+            - id: board-service
+              predicates:
+                - Path=/board-service/**
+              filters:
+                - StripPrefix=1
+              uri: lb://board-service
 # jwt 토큰 :  member 서비스에서 토큰을 만들고, apigateway가 검증을 해야 하는데, member 서비스에서 토튼을 만들때
 #  secretkey가 사용되어 토큰이 생성된다. 그 토큰을 검증하기 위해 당연히 그 secretkey를 알고 있어야 하므로 여기에 설정.
 jwt:

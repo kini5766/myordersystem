@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { hasAccess } from "../util/fetchUtil";
+import { hasAccess, logout } from "../util/fetchUtil";
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
@@ -36,6 +36,8 @@ const Header = () => {
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="/product">제품 등록</NavDropdown.Item>
                 <NavDropdown.Item href="/myProductList">내 제품</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logout}>로그아웃</NavDropdown.Item>
               </NavDropdown>
             ) : (
               <>

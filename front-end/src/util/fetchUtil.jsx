@@ -1,8 +1,28 @@
+const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
+
 export function login(data) {
   localStorage.setItem("id", data.memberId);
   localStorage.setItem("accessToken", data.accessToken);
   localStorage.setItem("refreshToken", data.refreshToken);
   window.location.href = "/user";
+}
+
+export function logout() {
+  let refreshToken = localStorage.getItem("refreshToken");
+
+  localStorage.removeItem("id");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+  window.location.href = "/";
+  
+  fetch(`${BACKEND_API_BASE_URL}/member-service/member/logout`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ refreshToken })
+  });
 }
 
 export async function refreshAccessToken() {
@@ -42,7 +62,7 @@ export async function fetchWithAccess(url, options = {}) {
       localStorage.removeItem("refreshToken");
       window.location.href = "/login";
     }
-      console.log("refreshToken 회전 성공")
+    console.log("refreshToken 회전 성공")
   }
   if (!response.ok) {
     throw new Error(`HTTP 오류 : ${response.status}`);

@@ -7,8 +7,8 @@
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/../../../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.46/a5cfe99fdf320e84955ef653f2ce1bf789d11385/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="member.main" />
-        <module name="member.test" />
+        <module name="board.main" />
+        <module name="board.test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -22,6 +22,9 @@
       <module name="apigateway" options="-parameters" />
       <module name="apigateway.main" options="-parameters" />
       <module name="apigateway.test" options="-parameters" />
+      <module name="board" options="-parameters" />
+      <module name="board.main" options="-parameters" />
+      <module name="board.test" options="-parameters" />
       <module name="configserver" options="-parameters" />
       <module name="configserver.main" options="-parameters" />
       <module name="configserver.test" options="-parameters" />
