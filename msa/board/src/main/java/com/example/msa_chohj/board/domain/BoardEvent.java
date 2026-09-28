@@ -1,6 +1,5 @@
 package com.example.msa_chohj.board.domain;
 
-import com.example.msa_chohj.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,12 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class BoardEvent extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private Integer content;
-    @Column(nullable = false)
-    private Long memberId;
+public class BoardEvent extends BaseBoard {
 }

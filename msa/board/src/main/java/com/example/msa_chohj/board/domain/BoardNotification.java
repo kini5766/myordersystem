@@ -11,12 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-public class BoardNotification {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private Integer content;
-    @Column(nullable = false)
-    private Long memberId;
+public class BoardNotification extends BaseBoard {
 }
