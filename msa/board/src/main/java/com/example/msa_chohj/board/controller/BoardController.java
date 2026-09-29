@@ -1,26 +1,59 @@
 package com.example.msa_chohj.board.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.msa_chohj.board.domain.BoardType;
+import com.example.msa_chohj.board.dto.BoardCreateRequestDTO;
+import com.example.msa_chohj.board.service.BoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/")
-@CrossOrigin
+@RequestMapping("board")
+@RequiredArgsConstructor
 public class BoardController {
-    @Autowired
-    private BoardService service;
+    private final BoardService boardService;
 
-    // http://localhost:8081/api/v1/boardList
-    @GetMapping("/boardList")
-    public ResponseEntity<?> findAll() {
-        return new ResponseEntity<>(service.boardList(), HttpStatus.OK);
+    @GetMapping("/list/{boardType}")
+    public ResponseEntity<?> boardListApi(@PathVariable BoardType boardType) {
+        return new ResponseEntity<>(
+                boardService.boardDisplayList(boardType),
+                HttpStatus.OK
+        );
     }
 
-    // http://localhost:8081/api/v1/board
-    @PostMapping("/board")
-    public ResponseEntity<?> save(@RequestBody BoardDTO dto) {
-        return new ResponseEntity<>(service.saveBoard(dto), HttpStatus.CREATED);
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<?> boardDetailApi(@PathVariable Long id) {
+        return new ResponseEntity<>(boardService.boardDetail(id), HttpStatus.OK);
     }
+
+    // -- admin service --
+
+    @PostMapping("/admin/create")
+    public ResponseEntity<?> boardCreateAdmin(@RequestBody BoardCreateRequestDTO dto) {
+        return new ResponseEntity<>(boardService.boardCreate(dto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/admin/modifiy/{id}")
+    public ResponseEntity<?> productModifyAdmin(@PathVariable Long id, @RequestBody BoardCreateRequestDTO dto) {
+        return new ResponseEntity<>(boardService.boardModify(id, dto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/admin/delete/{id}")
+    public ResponseEntity<?> productDeleteAdmin(@PathVariable Long id) {
+        boardService.boardDelete(id);
+        return new ResponseEntity<>("Success", HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/list/{boardType}")
+    public ResponseEntity<?> boardListAdmin(@PathVariable BoardType boardType) {
+        return new ResponseEntity<>(boardService.boardList(boardType), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/post/{boardType}")
+    public ResponseEntity<?> boardPostListAdmin(@PathVariable BoardType boardType) {
+        return new ResponseEntity<>(boardService.boardPostList(boardType), HttpStatus.OK);
+    }
+
+    // -- service to service --
 }

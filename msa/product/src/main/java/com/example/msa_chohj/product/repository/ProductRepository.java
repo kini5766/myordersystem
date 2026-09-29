@@ -3,6 +3,7 @@ package com.example.msa_chohj.product.repository;
 import com.example.msa_chohj.product.domain.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +16,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByMemberIdAndIsLock(Long id, boolean isLock);
 
     // https://velog.io/@kjyeon1101/Spring-JPA-%EC%BF%BC%EB%A6%AC-%EB%A7%8C%EB%93%A4%EA%B8%B0
-    @Query("SELECT p FROM Product p WHERE p.isLock = false AND p.name LIKE %?1%")
-    List<Product> search(String search);
+    @Query("""
+SELECT p
+FROM Product p
+WHERE p.isLock = false
+    AND p.name LIKE %:search%
+    """)
+    List<Product> search(@Param("name") String search);
+
 }

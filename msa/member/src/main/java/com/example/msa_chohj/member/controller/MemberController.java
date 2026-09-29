@@ -53,12 +53,12 @@ public class MemberController {
 
     // -- service to service --
 
-    @GetMapping("/name/{memberId}")
+    @GetMapping("/internal/name/{memberId}")
     public ResponseEntity<?> getMemberNameById(@PathVariable("memberId") Long memberId) {
         return ResponseEntity.ok(memberService.findNameById(memberId));
     }
 
-    @PostMapping("/nameList")
+    @PostMapping("/internal/nameList")
     public ResponseEntity<?> getAllMemberNameById(@RequestBody MemberNameListRequestDTO dto) {
         System.out.println(dto.toString());
         return ResponseEntity.ok(memberService.findAllNameById(dto));
