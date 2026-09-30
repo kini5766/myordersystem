@@ -20,6 +20,7 @@ spring:
           # msa 전체 아키텍처에서 apigateway가 글로벌하게 cors 처리를 하겠다.
           # 아래 4개 허용 설정으로 member - common > donfig > SecurityConfig에서 4개 허용이 가능
           globalcors:
+            add-to-simple-url-handler-mapping: true
             cors-configurations:
               '[/**]':
                 allowedOrigins:    # 어떤 도메인을 허용할지
@@ -34,24 +35,31 @@ spring:
             - id: member-service
               predicates:
                 - Path=/member-service/**      # 이 패턴인 경우  uri: lb://member-service 로 가겠다.
-                - Path=/login/oauth2/**
               filters:
                 # StripPrefix : 첫번째 접두어(member-service)를 제거후에 member-service로 http요청 전달
                 - StripPrefix=1
                 # eureka에게 member-service로 갈건데 어디로 갈지를 물어봄, eureka가 localhost:8080 또는 8081.. 알
               uri: lb://member-service      # lb://xxx-xxx => 위 application name과 일치
+
+            - id: member-oauth
+              predicates:
+                - Path=/login/oauth2/**
+              uri: lb://member-service
+
             - id: ordering-service
               predicates:
                 - Path=/ordering-service/**
               filters:
                 - StripPrefix=1
               uri: lb://ordering-service
+
             - id: product-service
               predicates:
                 - Path=/product-service/**
               filters:
                 - StripPrefix=1
               uri: lb://product-service
+
             - id: board-service
               predicates:
                 - Path=/board-service/**

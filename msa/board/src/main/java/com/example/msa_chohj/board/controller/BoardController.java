@@ -16,43 +16,40 @@ public class BoardController {
 
     @GetMapping("/list/{boardType}")
     public ResponseEntity<?> boardListApi(@PathVariable BoardType boardType) {
-        return new ResponseEntity<>(
-                boardService.boardDisplayList(boardType),
-                HttpStatus.OK
-        );
+        return new ResponseEntity<>(boardService.boardDisplayList(boardType), HttpStatus.OK);
     }
 
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<?> boardDetailApi(@PathVariable Long id) {
-        return new ResponseEntity<>(boardService.boardDetail(id), HttpStatus.OK);
+    @GetMapping("/detail/{no}")
+    public ResponseEntity<?> boardDetailApi(@PathVariable Long no) {
+        return new ResponseEntity<>(boardService.boardDetail(no), HttpStatus.OK);
     }
 
     // -- admin service --
+
+    @GetMapping("/admin/list")
+    public ResponseEntity<?> boardListAdmin() {
+        return new ResponseEntity<>(boardService.boardAdminList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/admin/detail/{no}")
+    public ResponseEntity<?> boardDetailAdmin(@PathVariable Long no) {
+        return new ResponseEntity<>(boardService.boardAdminDetail(no), HttpStatus.OK);
+    }
 
     @PostMapping("/admin/create")
     public ResponseEntity<?> boardCreateAdmin(@RequestBody BoardCreateRequestDTO dto) {
         return new ResponseEntity<>(boardService.boardCreate(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/modifiy/{id}")
-    public ResponseEntity<?> productModifyAdmin(@PathVariable Long id, @RequestBody BoardCreateRequestDTO dto) {
-        return new ResponseEntity<>(boardService.boardModify(id, dto), HttpStatus.OK);
+    @PutMapping("/admin/modifiy/{no}")
+    public ResponseEntity<?> productModifyAdmin(@PathVariable Long no, @RequestBody BoardCreateRequestDTO dto) {
+        return new ResponseEntity<>(boardService.boardModify(no, dto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/delete/{id}")
-    public ResponseEntity<?> productDeleteAdmin(@PathVariable Long id) {
-        boardService.boardDelete(id);
+    @DeleteMapping("/admin/delete/{no}")
+    public ResponseEntity<?> productDeleteAdmin(@PathVariable Long no) {
+        boardService.boardDelete(no);
         return new ResponseEntity<>("Success", HttpStatus.OK);
-    }
-
-    @GetMapping("/admin/list/{boardType}")
-    public ResponseEntity<?> boardListAdmin(@PathVariable BoardType boardType) {
-        return new ResponseEntity<>(boardService.boardList(boardType), HttpStatus.OK);
-    }
-
-    @GetMapping("/admin/post/{boardType}")
-    public ResponseEntity<?> boardPostListAdmin(@PathVariable BoardType boardType) {
-        return new ResponseEntity<>(boardService.boardPostList(boardType), HttpStatus.OK);
     }
 
     // -- service to service --

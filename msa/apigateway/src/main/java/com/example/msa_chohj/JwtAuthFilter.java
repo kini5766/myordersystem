@@ -4,10 +4,13 @@ import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
 import reactor.core.publisher.Mono;
 import java.util.List;
 
@@ -95,4 +98,44 @@ public class JwtAuthFilter implements GlobalFilter {   // neti 기반의 비동�
             return exchange.getResponse().setComplete();
         }
     }
+
+    @Bean
+    public WebFilter corsDebugFilter() {
+        return (exchange, chain) -> {
+            var request = exchange.getRequest();
+
+            if (request.getMethod() == HttpMethod.OPTIONS) {
+                System.out.println("=== GATEWAY OPTIONS IN ===");
+                System.out.println("URI: " + request.getURI());
+                System.out.println("Origin: " + request.getHeaders().getOrigin());
+                System.out.println(
+                        "Access-Control-Request-Method: " +
+                                request.getHeaders().getFirst("Access-Control-Request-Method")
+                );
+                System.out.println(
+                        "Access-Control-Request-Headers: " +
+                                request.getHeaders().getFirst("Access-Control-Request-Headers")
+                );
+            }
+
+            return chain.filter(exchange)
+                    .doFinally(signal -> {
+                        if (request.getMethod() == HttpMethod.OPTIONS) {
+                            System.out.println("=== GATEWAY OPTIONS OUT ===");
+                            System.out.println(
+                                    "Status: " +
+                                            exchange.getResponse().getStatusCode()
+                            );
+                            System.out.println(
+                                    "Access-Control-Allow-Origin: " +
+                                            exchange.getResponse()
+                                                    .getHeaders()
+                                                    .getFirst("Access-Control-Allow-Origin")
+                            );
+                        }
+                    });
+        };
+    }
+
+
 }

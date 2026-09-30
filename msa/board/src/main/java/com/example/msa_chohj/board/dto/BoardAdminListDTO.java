@@ -4,12 +4,13 @@ import com.example.msa_chohj.board.domain.BoardType;
 
 import java.time.LocalDateTime;
 
-public record BoardCreateRequestDTO(
+public record BoardAdminListDTO(
+        Long boardNo,
         BoardType boardType,
         String title,
-        String content,
         int displayOrder,
         LocalDateTime displayStartDate,
         LocalDateTime displayEndDate,
-        boolean active) {
+        boolean active
+) {
 }
