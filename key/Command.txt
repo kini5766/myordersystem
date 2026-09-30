@@ -1,0 +1,10 @@
+# 개인키 (PKCS#8)
+openssl genpkey -algorithm EC \
+  -pkeyopt ec_paramgen_curve:P-256 \
+  -out jwt-es256-private.pem
+
+# 공개키
+openssl pkey -in jwt-es256-private.pem -pubout -out jwt-es256-public.pem
+
+# 확인: prime256v1 / P-256 이어야 함
+openssl pkey -in jwt-es256-private.pem -text -noout | head
