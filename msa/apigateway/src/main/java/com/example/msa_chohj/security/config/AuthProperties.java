@@ -2,15 +2,9 @@ package com.example.msa_chohj.security.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.time.Duration;
-
 @ConfigurationProperties(prefix = "auth")
 public record AuthProperties(
         String accessTokenKeyId,
-        String accessTokenPublic,
-        String accessTokenPrivate,
-        Duration accessTokenExpiration,
-        String accessTokenSecret,
-        Duration refreshTokenExpiration
+        String accessTokenPublic
 ) {
 }

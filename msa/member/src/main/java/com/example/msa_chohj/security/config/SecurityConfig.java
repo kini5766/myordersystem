@@ -7,13 +7,6 @@ import com.example.msa_chohj.security.handler.LoginFailureHandler;
 import com.example.msa_chohj.security.handler.LoginSuccessHandler;
 import com.example.msa_chohj.security.service.AuthService;
 import com.example.msa_chohj.security.service.CustomOAuth2UserService;
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.jwk.Curve;
-import com.nimbusds.jose.jwk.ECKey;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.KeyUse;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,11 +18,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -37,8 +25,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.security.interfaces.ECPrivateKey;
-import java.security.interfaces.ECPublicKey;
 import java.util.List;
 
 @Configuration
@@ -56,30 +42,6 @@ public class SecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
-    @Bean
-    JwtEncoder jwtEncoder(ECPublicKey pub, ECPrivateKey priv) {
-        ECKey jwk = new ECKey.Builder(Curve.P_256, pub)
-                .privateKey(priv)
-                .keyID("es256-2026-09")
-                .keyUse(KeyUse.SIGNATURE)
-                .algorithm(JWSAlgorithm.ES256)
-                .build();
-
-        return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
-    }
-
-    @Bean
-    JwtDecoder jwtDecoder(ECPublicKey pub) {
-        ECKey jwk = new ECKey.Builder(Curve.P_256, pub)
-                .keyID("es256-2026-09")
-                .keyUse(KeyUse.SIGNATURE)
-                .algorithm(JWSAlgorithm.ES256)
-                .build();
-
-        return NimbusJwtDecoder.withJwkSource(new ImmutableJWKSet<SecurityContext>(new JWKSet(jwk)))
-                .jwsAlgorithm(SignatureAlgorithm.ES256)
-                .build();
     }
 
     @Bean

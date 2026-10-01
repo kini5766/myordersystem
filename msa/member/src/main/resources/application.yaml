@@ -6,3 +6,7 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8888/"
     fail-fast: true
+auth:
+  access-token-key-id: es256-2026
+  access-token-public: ${JWT_SECRET:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}
+  access-token-private: ${JWT_PRIVATE:-----BEGIN PRIVATE KEY-----MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQglqtT6MHs37oWHt8aA1MYWXR9K0rrTNsyVGMPPiJFGMChRANCAATvA7HM4z3G0fD1G9tLX2S8l6iKhDGIj28DkF8IRQCQ7hvOPL44MbCzqgvtW/oO/RhcZ3AuqYiSufpEq6Mdigfu-----END PRIVATE KEY-----}

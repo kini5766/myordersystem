@@ -1,10 +1,10 @@
-# °³ÀÎÅ° (PKCS#8)
+# ê°œì¸í‚¤ (PKCS#8)
 openssl genpkey -algorithm EC \
   -pkeyopt ec_paramgen_curve:P-256 \
   -out jwt-es256-private.pem
 
-# °ø°³Å°
+# ê³µê°œí‚¤
 openssl pkey -in jwt-es256-private.pem -pubout -out jwt-es256-public.pem
 
-# È®ÀÎ: prime256v1 / P-256 ÀÌ¾î¾ß ÇÔ
+# í™•ì¸: prime256v1 / P-256 ì´ì–´ì•¼ í•¨
 openssl pkey -in jwt-es256-private.pem -text -noout | head

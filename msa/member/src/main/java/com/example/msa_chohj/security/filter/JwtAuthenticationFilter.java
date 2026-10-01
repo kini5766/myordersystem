@@ -1,18 +1,19 @@
 package com.example.msa_chohj.security.filter;
 
+import com.example.msa_chohj.security.jwt.AccessTokenDecoder;
 import com.example.msa_chohj.security.service.CustomUserDetailsService;
-import com.example.msa_chohj.security.jwt.JwtTokenProvider;
-import com.example.msa_chohj.security.jwt.JwtTokenResolver;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -26,8 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final JwtTokenResolver jwtTokenResolver;
+    private final AccessTokenDecoder accessTokenDecoder;
     private final CustomUserDetailsService userDetailsService;
 
     private static final AntPathMatcher PATH_MATCHER = new AntPathMatcher();
@@ -48,10 +48,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain
     ) throws ServletException, IOException {
         try {
-            String token = jwtTokenResolver.resolveBearerToken(request);
+            String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+            String token = AccessTokenDecoder.stripBearer(bearerToken);
 
-            if (StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)) {
-                String sub = jwtTokenProvider.getSubject(token);
+            if (StringUtils.hasText(token) && accessTokenDecoder.validateToken(token)) {
+                Jwt jwt = accessTokenDecoder.decode(token);
+                String sub = AccessTokenDecoder.requireSubject(jwt);
                 Long id = Long.parseLong(sub);
                 UserDetails userDetails = userDetailsService.loadUserById(id);
 

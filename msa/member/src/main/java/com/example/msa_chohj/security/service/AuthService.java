@@ -2,8 +2,8 @@ package com.example.msa_chohj.security.service;
 
 import com.example.msa_chohj.member.dto.AuthTokenResponseDTO;
 import com.example.msa_chohj.member.dto.RefreshDTO;
-import com.example.msa_chohj.security.dao.RefreshTokenDAO;
-import com.example.msa_chohj.security.jwt.JwtTokenProvider;
+import com.example.msa_chohj.security.jwt.AccessTokenProvider;
+import com.example.msa_chohj.security.jwt.RefreshTokenDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AccessTokenProvider accessTokenProvider;
     private final RefreshTokenDAO refreshTokenDAO;
     private final CustomUserDetailsService userDetailsService;
 
@@ -46,7 +46,7 @@ public class AuthService {
         UserDetails userDetails = findAndValidateUser(sub);
 
         String newRawRefresh = refreshTokenDAO.generateAndSave(sub);
-        String newAccessToken = jwtTokenProvider.createToken(sub, userDetails.getAuthorities());
+        String newAccessToken = accessTokenProvider.issueAccessToken(sub, userDetails.getAuthorities());
         return new AuthTokenResponseDTO(userId, newAccessToken, newRawRefresh);
     }
 
@@ -60,7 +60,7 @@ public class AuthService {
         }
 
         String newRawRefresh = refreshTokenDAO.generateAndSave(sub);
-        String newAccessToken = jwtTokenProvider.createToken(sub, userDetails.getAuthorities());
+        String newAccessToken = accessTokenProvider.issueAccessToken(sub, userDetails.getAuthorities());
         return new AuthTokenResponseDTO(userId, newAccessToken, newRawRefresh);
     }
 
