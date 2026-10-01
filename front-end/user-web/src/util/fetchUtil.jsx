@@ -13,7 +13,7 @@ export function logout() {
   localStorage.removeItem("id");
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
-  window.location.href = "/";
+  window.location.href = "/login";
   
   fetch(`${BACKEND_API_BASE_URL}/member-service/member/logout`, {
     method: "POST",

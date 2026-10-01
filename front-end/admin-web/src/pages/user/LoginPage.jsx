@@ -36,8 +36,11 @@ const LoginPage = () => {
   return (
     <div>
       <Container>
-        <br /><hr />
+        <br />
+        <br />
         <h1>로그인</h1>
+        <hr />
+        <br />
         <Form onSubmit={handleLogin}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>아이디</Form.Label>

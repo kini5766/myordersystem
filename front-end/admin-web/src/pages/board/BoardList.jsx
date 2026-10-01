@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 import BoardItem from '../../common/components/BoardItem';
 import { fetchWithAccess } from '../../util/fetchUtil';
 
@@ -15,7 +16,7 @@ const BoardList = () => {
   };
 
   useEffect(() => {
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/list`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/list`, {
       method: 'GET',
     })
       .then(res => res.json())
@@ -28,9 +29,10 @@ const BoardList = () => {
     <div>
       <Container>
         <br />
-        <hr />
-        <h3>BoardList</h3>
         <br />
+        <h3>BoardList</h3>
+        <Button variant="success" as={Link} to="/board/write">글쓰기</Button>
+        <hr />
         <br />
 
         {boardList.map(board => (

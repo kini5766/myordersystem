@@ -29,8 +29,11 @@ function UserPage() {
   return (
     <div>
       <Container>
-        <br /><hr />
+        <br />
+        <br />
         <h3>내 정보</h3>
+        <hr />
+        <br />
         <p>이메일: {userInfo?.email}</p>
         <p>닉네임: {userInfo?.name}</p>
       </Container>

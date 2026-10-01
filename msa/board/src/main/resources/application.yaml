@@ -3,14 +3,6 @@ server:
 spring:
   application:
     name: board-service
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/chohj_board
-    username: root
-    password: admin
-  jpa:
-    database-platform: org.hibernate.dialect.MariaDBDialect
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+  config:
+    import: "optional:configserver:http://localhost:8888/"
+    fail-fast: true

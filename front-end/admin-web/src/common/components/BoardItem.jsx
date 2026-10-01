@@ -1,6 +1,7 @@
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fetchWithAccess } from '../../util/fetchUtil'
+import {toBoardTypeLabel} from '../../util/BoardType'
 
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
@@ -37,11 +38,11 @@ const BoardItem = (props) => {
         <Card.Body>
           <Card.Title>글번호 : {boardNo}</Card.Title>
 
-          <Card.Text>게시판 유형 : {boardType}</Card.Text>
+          <Card.Text>게시판 유형 : {toBoardTypeLabel(boardType)}</Card.Text>
           <Card.Text>글제목 : {title}</Card.Text>
           <Card.Text>노출 순서 : {displayOrder}</Card.Text>
-          <Card.Text>노출 시작일 : {displayStartDate}</Card.Text>
-          <Card.Text>노출 종료일 : {displayEndDate}</Card.Text>
+          <Card.Text>노출 시작일 : {displayStartDate ? displayStartDate : '처음 부터'}</Card.Text>
+          <Card.Text>노출 종료일 : {displayEndDate ? displayEndDate : '계속'}</Card.Text>
           <Card.Text>숨김 여부 : {active ? '기본' : '숨김'}</Card.Text>
 
           <Link to={`/board/${boardNo}`} className="btn btn-primary">글 수정</Link>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchWithAccess } from '../../util/fetchUtil'
+import { BOARD_TYPE_LABEL } from '../../util/BoardType'
 
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
@@ -20,7 +21,7 @@ const BoardUpdateForm = () => {
   });
 
   useEffect(() => {
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/detail/${board_no}`)
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/detail/${board_no}`)
       .then(res => res.json())
       .then(res => setBoard(res));
   }, [board_no]);
@@ -37,7 +38,7 @@ const BoardUpdateForm = () => {
   const submitBoard = (e) => {
     e.preventDefault();
 
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/modifiy/${board_no}`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/modifiy/${board_no}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json;charset=utf8',
@@ -63,9 +64,9 @@ const BoardUpdateForm = () => {
     <div>
       <Container>
         <br />
-        <hr />
-        <h3>글 수정</h3>
         <br />
+        <h3>글 수정</h3>
+        <hr />
         <br />
 
         <Form onSubmit={submitBoard}>
@@ -78,8 +79,11 @@ const BoardUpdateForm = () => {
               value={board.boardType}
               onChange={changeValue}
             >
-              <option value="NOTICE">공지사항</option>
-              <option value="EVENT">행사</option>
+              {Object.entries(BOARD_TYPE_LABEL).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
 

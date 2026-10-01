@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { fetchWithAccess } from '../../util/fetchUtil'
+import { BOARD_TYPE_LABEL } from '../../util/BoardType'
 
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
@@ -30,7 +31,7 @@ const BoardWriteForm = () => {
   const submitBoard = e => {
     e.preventDefault();
 
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/create`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf8"
@@ -55,9 +56,9 @@ const BoardWriteForm = () => {
     <div>
       <Container>
         <br />
-        <hr />
-        <h3>글쓰기</h3>
         <br />
+        <h3>글쓰기</h3>
+        <hr />
         <br />
         
         <Form onSubmit={submitBoard}>
@@ -70,8 +71,11 @@ const BoardWriteForm = () => {
               value={board.boardType}
               onChange={changeValue}
             >
-              <option value="NOTICE">공지사항</option>
-              <option value="EVENT">행사</option>
+              {Object.entries(BOARD_TYPE_LABEL).map(([value, label]) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
 
