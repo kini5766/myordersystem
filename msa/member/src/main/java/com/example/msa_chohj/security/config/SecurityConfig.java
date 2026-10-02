@@ -1,6 +1,5 @@
 package com.example.msa_chohj.security.config;
 
-import com.example.msa_chohj.common.config.AppProperties;
 import com.example.msa_chohj.security.filter.LoginFilter;
 import com.example.msa_chohj.security.handler.LoginFailureHandler;
 import com.example.msa_chohj.security.handler.LoginSuccessHandler;
@@ -20,11 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
