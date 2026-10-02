@@ -2,18 +2,10 @@ package com.example.msa_chohj.member.controller;
 
 import com.example.msa_chohj.member.dto.*;
 import com.example.msa_chohj.member.service.SocialAccountService;
-import com.example.msa_chohj.security.service.CustomOAuth2UserService;
 import com.example.msa_chohj.member.service.MemberService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,27 +32,12 @@ public class MemberController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<?> memberInfoApi() {
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(memberService.readMember(Long.parseLong(id)));
+    public ResponseEntity<?> memberInfoApi(@RequestHeader("X-User-Id") String memberId) {
+        return ResponseEntity.ok(memberService.readMember(Long.parseLong(memberId)));
     }
 
     @GetMapping("/mySocialList")
-    public ResponseEntity<?> mySocialListApi() {
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(socialAccountService.mySocialList(Long.parseLong(id)));
-    }
-
-    // -- service to service --
-
-    @GetMapping("/internal/name/{memberId}")
-    public ResponseEntity<?> getMemberNameById(@PathVariable("memberId") Long memberId) {
-        return ResponseEntity.ok(memberService.findNameById(memberId));
-    }
-
-    @PostMapping("/internal/nameList")
-    public ResponseEntity<?> getAllMemberNameById(@RequestBody MemberNameListRequestDTO dto) {
-        System.out.println(dto.toString());
-        return ResponseEntity.ok(memberService.findAllNameById(dto));
+    public ResponseEntity<?> mySocialListApi(@RequestHeader("X-User-Id") String memberId) {
+        return ResponseEntity.ok(socialAccountService.mySocialList(Long.parseLong(memberId)));
     }
 }

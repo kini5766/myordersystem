@@ -21,7 +21,7 @@ const BoardUpdateForm = () => {
   });
 
   useEffect(() => {
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/detail/${board_no}`)
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/board/detail/${board_no}`)
       .then(res => res.json())
       .then(res => setBoard(res));
   }, [board_no]);
@@ -38,7 +38,7 @@ const BoardUpdateForm = () => {
   const submitBoard = (e) => {
     e.preventDefault();
 
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/modifiy/${board_no}`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/board/modifiy/${board_no}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json;charset=utf8',

@@ -1,9 +1,6 @@
 package com.example.msa_chohj.product.controller;
 
-import com.example.msa_chohj.product.domain.Product;
-import com.example.msa_chohj.product.dto.ProductListByIdListDTO;
 import com.example.msa_chohj.product.dto.ProductRegisterDTO;
-import com.example.msa_chohj.product.dto.ProductUpdateStockDTO;
 import com.example.msa_chohj.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,18 +47,5 @@ public class ProductController {
     @GetMapping("/search/{text}")
     public ResponseEntity<?> getProductListApi(@PathVariable String text) {
         return new ResponseEntity<>(productService.searchList(text), HttpStatus.OK);
-    }
-
-    // -- service to service --
-
-    @PostMapping("/internal/list")
-    ResponseEntity<?> getAllProductById(@RequestBody ProductListByIdListDTO dto) {
-        return new ResponseEntity<>(productService.productListByIdList(dto), HttpStatus.OK);
-    }
-
-    @PutMapping("/internal/product/updatestock")
-    public ResponseEntity<?> productStock(@RequestBody ProductUpdateStockDTO dto) {
-        Product product = productService.updateStockQuantity(dto);
-        return new ResponseEntity<>(product.getId(), HttpStatus.OK);
     }
 }

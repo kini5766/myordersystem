@@ -12,9 +12,9 @@ import java.util.List;
 
 @FeignClient(name = "member-service")
 public interface MemberFeign {
-    @GetMapping("/member/internal/name/{memberId}")
+    @GetMapping("/internal/member/name/{memberId}")
     MemberNameDTO getMemberNameById(@PathVariable("memberId") Long memberId);
 
-    @PostMapping("/member/internal/nameList")
+    @PostMapping("/internal/member/nameList")
     List<MemberNameDTO> getAllMemberNameById(@RequestBody MemberNameListRequestDTO dto);
 }

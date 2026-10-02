@@ -16,7 +16,7 @@ const BoardList = () => {
   };
 
   useEffect(() => {
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/list`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/board/list`, {
       method: 'GET',
     })
       .then(res => res.json())

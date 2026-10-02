@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("board")
 @RequiredArgsConstructor
 public class BoardController {
+
     private final BoardService boardService;
 
     @GetMapping("/list/{boardType}")
@@ -23,34 +24,4 @@ public class BoardController {
     public ResponseEntity<?> boardDetailApi(@PathVariable Long no) {
         return new ResponseEntity<>(boardService.boardDetail(no), HttpStatus.OK);
     }
-
-    // -- admin service --
-
-    @GetMapping("/admin/list")
-    public ResponseEntity<?> boardListAdmin() {
-        return new ResponseEntity<>(boardService.boardAdminList(), HttpStatus.OK);
-    }
-
-    @GetMapping("/admin/detail/{no}")
-    public ResponseEntity<?> boardDetailAdmin(@PathVariable Long no) {
-        return new ResponseEntity<>(boardService.boardAdminDetail(no), HttpStatus.OK);
-    }
-
-    @PostMapping("/admin/create")
-    public ResponseEntity<?> boardCreateAdmin(@RequestBody BoardCreateRequestDTO dto) {
-        return new ResponseEntity<>(boardService.boardCreate(dto), HttpStatus.CREATED);
-    }
-
-    @PutMapping("/admin/modifiy/{no}")
-    public ResponseEntity<?> productModifyAdmin(@PathVariable Long no, @RequestBody BoardCreateRequestDTO dto) {
-        return new ResponseEntity<>(boardService.boardModify(no, dto), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/admin/delete/{no}")
-    public ResponseEntity<?> productDeleteAdmin(@PathVariable Long no) {
-        boardService.boardDelete(no);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
-    }
-
-    // -- service to service --
 }

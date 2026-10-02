@@ -17,7 +17,7 @@ const BoardItem = (props) => {
   } = props.board;
 
   const deleteBoard = () => {
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/delete/${boardNo}`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/board/delete/${boardNo}`, {
       method: "DELETE",
     })
       .then((res) => res.text())

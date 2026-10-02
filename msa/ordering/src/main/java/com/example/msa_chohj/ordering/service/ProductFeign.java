@@ -15,6 +15,6 @@ public interface ProductFeign {
     @GetMapping("/product/detail/{id}")
     ProductDTO productDetailApi(@PathVariable("id") Long id);
 
-    @PostMapping("/product/internal/list")
+    @PostMapping("/internal/product/list")
     List<ProductDTO> getAllProductById(@RequestBody ProductListRequestDTO dto);
 }

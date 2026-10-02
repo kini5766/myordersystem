@@ -40,15 +40,6 @@ public class AccessTokenDecoder {
         return jwtDecoder.decode(token);
     }
 
-    public boolean validateToken(String token) {
-        try {
-            jwtDecoder.decode(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public static String requireSubject(Jwt jwt) {
         String subject = jwt.getSubject();
         if (subject == null || subject.isBlank()) {

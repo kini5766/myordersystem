@@ -31,7 +31,7 @@ const BoardWriteForm = () => {
   const submitBoard = e => {
     e.preventDefault();
 
-    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/board/admin/create`, {
+    fetchWithAccess(`${BACKEND_API_BASE_URL}/board-service/admin/board/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf8"

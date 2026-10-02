@@ -31,8 +31,6 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private final AuthenticationSuccessHandler socialSuccessHandler;
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -98,7 +96,7 @@ public class SecurityConfig {
                             exception.printStackTrace();
                         }))
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
