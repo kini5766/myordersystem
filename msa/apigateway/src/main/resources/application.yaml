@@ -15,16 +15,6 @@ spring:
     gateway:
       server:
         webflux:
-          globalcors:
-            add-to-simple-url-handler-mapping: true
-            cors-configurations:
-              '[/**]':
-                allowedOrigins:
-                  - 'http://localhost:3000'
-                  - 'http://localhost:5173'
-                allowedMethods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
-                allowedHeaders: '*'
-                allowCredentials: true
           routes:
             - id: member-service
               predicates:
@@ -59,15 +49,6 @@ spring:
                 - StripPrefix=1
               uri: lb://board-service
 auth:
+  access-token-issuer: member-service
   access-token-key-id: es256-2026
   access-token-public: ${JWT_SECRET:-----BEGIN PUBLIC KEY-----MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE7wOxzOM9xtHw9RvbS19kvJeoioQxiI9vA5BfCEUAkO4bzjy+ODGws6oL7Vv6Dv0YXGdwLqmIkrn6RKujHYoH7g==-----END PUBLIC KEY-----}
-  exclude-paths:
-    - /member/login
-    - /member/refresh
-    - /member/create
-    - /member/exists/*
-    - /member/cookie/exchange
-    - /login/oauth2/**
-    - /product/list
-    - /product/search/*
-    - /product/detail/*

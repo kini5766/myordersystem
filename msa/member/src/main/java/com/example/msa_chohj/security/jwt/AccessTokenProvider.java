@@ -42,6 +42,7 @@ public class AccessTokenProvider {
                 .issuedAt(now)
                 .expiresAt(now.plus(authProperties.accessTokenExpiration()))
                 .id(UUID.randomUUID().toString())
+                .issuer(authProperties.accessTokenIssuer())
                 .claim("roles", roles)
                 .build();
 

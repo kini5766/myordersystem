@@ -1,7 +1,6 @@
 package com.example.msa_chohj.security.config;
 
 import com.example.msa_chohj.common.config.AppProperties;
-import com.example.msa_chohj.security.filter.JwtAuthenticationFilter;
 import com.example.msa_chohj.security.filter.LoginFilter;
 import com.example.msa_chohj.security.handler.LoginFailureHandler;
 import com.example.msa_chohj.security.handler.LoginSuccessHandler;
@@ -35,7 +34,6 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final AuthService authService;
-    private final AppProperties appProperties;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -45,21 +43,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(appProperties.frontend().url(), "http://localhost:3000"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
     }
 
     @Bean
@@ -74,18 +57,13 @@ public class SecurityConfig {
         // http 설정
         http
                 .csrf(AbstractHttpConfigurer::disable)
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers().permitAll()
-//                        .requestMatchers(HttpMethod.POST, UserController.USER_URL).permitAll()
-//                        .requestMatchers(HttpMethod.GET, UserController.EXIST_URL + "/**").permitAll()
                         .anyRequest().permitAll()
-//                        .authenticated()
                 )
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(userInfo -> userInfo
@@ -96,7 +74,6 @@ public class SecurityConfig {
                             exception.printStackTrace();
                         }))
                 )
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

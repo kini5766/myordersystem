@@ -6,8 +6,8 @@ import java.util.List;
 
 @ConfigurationProperties(prefix = "auth")
 public record AuthProperties(
-        String accessTokenKeyId,
         String accessTokenPublic,
-        List<String> excludePaths
+        String accessTokenKeyId,
+        String accessTokenIssuer
 ) {
 }

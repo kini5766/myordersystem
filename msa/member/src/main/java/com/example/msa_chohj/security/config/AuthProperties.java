@@ -6,9 +6,10 @@ import java.time.Duration;
 
 @ConfigurationProperties(prefix = "auth")
 public record AuthProperties(
-        String accessTokenKeyId,
         String accessTokenPublic,
         String accessTokenPrivate,
+        String accessTokenKeyId,
+        String accessTokenIssuer,
         Duration accessTokenExpiration,
         String accessTokenSecret,
         Duration refreshTokenExpiration
