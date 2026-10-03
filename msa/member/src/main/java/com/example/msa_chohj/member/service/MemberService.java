@@ -3,7 +3,6 @@ package com.example.msa_chohj.member.service;
 import com.example.msa_chohj.member.domain.Member;
 import com.example.msa_chohj.member.dto.*;
 import com.example.msa_chohj.member.repository.MemberRepository;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
