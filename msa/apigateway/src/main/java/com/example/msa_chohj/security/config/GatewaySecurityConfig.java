@@ -49,7 +49,7 @@ public class GatewaySecurityConfig {
                 .authorizeExchange(auth -> auth
                         .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .pathMatchers(
-                                "/member/refresh",
+                                "/member-service/member/refresh",
                                 "/member-service/member/login",
                                 "/member-service/member/create",
                                 "/member-service/member/exists/*",

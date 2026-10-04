@@ -39,17 +39,6 @@ public class AuthController {
         return ResponseEntity.ok().body(new RefreshDTO(refreshToken));
     }
 
-    @PostMapping(value = "/member/refresh", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> jwtRefreshApi(@Validated @RequestBody RefreshDTO dto) {
-        return ResponseEntity.ok(authService.refreshRotate(dto));
-    }
-
-    @PostMapping(value = "/member/logout", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> logoutApi(@Validated @RequestBody RefreshDTO dto) {
-        authService.removeRefresh(dto.refreshToken());
-        return ResponseEntity.ok().build();
-    }
-
     private String extractCookieRefreshToken(Cookie[] cookies) {
         String name =  appProperties.cookie().refreshTokenName();
         for (Cookie cookie : cookies) {
@@ -68,5 +57,16 @@ public class AuthController {
                 .maxAge(0)
                 .sameSite(appProperties.cookie().sameSite())
                 .build();
+    }
+
+    @PostMapping(value = "/member/refresh", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> jwtRefreshApi(@Validated @RequestBody RefreshDTO dto) {
+        return ResponseEntity.ok(authService.refreshRotate(dto));
+    }
+
+    @PostMapping(value = "/member/logout", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> logoutApi(@Validated @RequestBody RefreshDTO dto) {
+        authService.removeRefresh(dto.refreshToken());
+        return ResponseEntity.ok().build();
     }
 }
