@@ -57,7 +57,7 @@ public class GatewaySecurityConfig {
                                 "/login/oauth2/**",
                                 "/product-service/product/list",
                                 "/product-service/product/search/*",
-                                "/product-service/product/detail/*"
+                                "/product-service/product/detail/*",
                                 "/board-service/board/list/*",
                                 "/board-service/board/detail/*"
                         ).permitAll()

@@ -3,7 +3,7 @@ package com.example.msa_chohj.security.service;
 import com.example.msa_chohj.member.dto.AuthTokenResponseDTO;
 import com.example.msa_chohj.member.dto.RefreshDTO;
 import com.example.msa_chohj.security.jwt.AccessTokenProvider;
-import com.example.msa_chohj.security.jwt.RefreshTokenDAO;
+import com.example.msa_chohj.security.dao.RefreshTokenDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
