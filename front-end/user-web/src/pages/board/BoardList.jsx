@@ -1,25 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { toBoardTypeLabel } from '../../util/BoardType';
 import BoardItem from '../../common/components/BoardItem';
 
+const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
+
 const BoardList = () => {
+  const propsParam = useParams();
+  const boardType = propsParam.board_type;
+  const title = toBoardTypeLabel(boardType);
+
   const [boardList, setBoardList] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8081/api/v1/boardList", {
+    fetch(`${BACKEND_API_BASE_URL}/board-service/board/list/${boardType}`, {
       method: "GET"
     }).then(res => res.json())
       .then(res => {
         setBoardList(res);
       });
-  }, []);
+  }, [boardType]);
+
   return (
     <div>
       <Container>
-        <br /><hr />
-        <h3>BoardList</h3>
         <br /><br />
+        <h3>{title}</h3>
+        <hr /><br />
         {boardList.map(board =>
-          <BoardItem key={board.board_no} board={board} />
+          <BoardItem key={board.boardNo} board={board} />
         )}
       </Container>
     </div>

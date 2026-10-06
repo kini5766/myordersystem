@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,9 +27,9 @@ public class BoardService {
         Board board = boardRepository.findById(no)
                 .orElseThrow(EntityNotFoundException::new);
         return new BoardDetailDTO(
-                board.getBoardType(),
                 board.getTitle(),
-                board.getContent()
+                board.getContent(),
+                board.getUpdatedDate()
         );
     }
 
@@ -36,7 +37,8 @@ public class BoardService {
         return boardDisplayPostRepository.findDisplayPosts(boardType, LocalDateTime.now())
                 .stream().map(post -> new BoardListDTO(
                         post.getBoard().getNo(),
-                        post.getBoard().getTitle())
+                        post.getBoard().getTitle(),
+                        post.getBoard().getUpdatedDate())
                 )
                 .toList();
     }

@@ -68,8 +68,9 @@ const JoinPage = () => {
   return (
     <div>
       <Container>
-        <br /><hr />
+        <br /><br />
         <h1>회원가입</h1>
+        <hr /><br />
 
         <Form onSubmit={handleSignUp}>
           <Form.Group className="mb-3" controlId="formBasicEmail">

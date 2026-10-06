@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
-import { hasAccess, logout } from "../util/fetchUtil";
+import { hasAccess, logout } from "../../util/fetchUtil";
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
@@ -28,13 +28,15 @@ const Header = () => {
             style={{ maxHeight: '100px' }}
             navbarScroll
           >
-            <Link to="/" className='nav-link'>Home</Link>
+            <Link to="/product" className='nav-link'>제품 목록</Link>
+            <Link to="/board/NOTICE" className='nav-link'>공지사항</Link>
+            <Link to="/board/EVENT" className='nav-link'>이벤트</Link>
             {hasAccess() ? (
               <NavDropdown title="My" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="/user">내 정보</NavDropdown.Item>
                 <NavDropdown.Item href="/orderingList">주문 목록</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="/product">제품 등록</NavDropdown.Item>
+                <NavDropdown.Item href="/product/write">제품 등록</NavDropdown.Item>
                 <NavDropdown.Item href="/myProductList">내 제품</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={logout}>로그아웃</NavDropdown.Item>

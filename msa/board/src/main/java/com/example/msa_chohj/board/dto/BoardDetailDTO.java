@@ -1,6 +1,6 @@
 package com.example.msa_chohj.board.dto;
 
-import com.example.msa_chohj.board.domain.BoardType;
+import java.time.LocalDateTime;
 
-public record BoardDetailDTO(BoardType boardType, String title, String content) {
+public record BoardDetailDTO(String title, String content, LocalDateTime updatedDate) {
 }

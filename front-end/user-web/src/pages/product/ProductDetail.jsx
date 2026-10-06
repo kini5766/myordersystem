@@ -92,8 +92,9 @@ const ProductDetail = (props) => {
   return (
     <div>
       <Container>
-        <br /><hr />
+        <br /><br />
         <h3>상세보기</h3>
+        <hr /><br />
         {product !== null ? <Card>
           <Card.Body>
             <Card.Title>제품번호 : {product.id}</Card.Title>

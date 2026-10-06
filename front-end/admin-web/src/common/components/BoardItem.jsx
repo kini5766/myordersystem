@@ -36,16 +36,14 @@ const BoardItem = (props) => {
     <div>
       <Card>
         <Card.Body>
-          <Card.Title>글번호 : {boardNo}</Card.Title>
-
-          <Card.Text>게시판 유형 : {toBoardTypeLabel(boardType)}</Card.Text>
-          <Card.Text>글제목 : {title}</Card.Text>
-          <Card.Text>노출 순서 : {displayOrder}</Card.Text>
-          <Card.Text>노출 시작일 : {displayStartDate ? displayStartDate : '처음 부터'}</Card.Text>
-          <Card.Text>노출 종료일 : {displayEndDate ? displayEndDate : '계속'}</Card.Text>
-          <Card.Text>숨김 여부 : {active ? '기본' : '숨김'}</Card.Text>
-
+          <Card.Title>{title}</Card.Title>
+          <Card.Text>
+            게시판 유형 : {toBoardTypeLabel(boardType)}<br />
+            노출 기간 : {displayStartDate ? displayStartDate : '처음 부터'} ~ {displayEndDate ? displayEndDate : '계속'}<br />
+            노출 순서 : {displayOrder} 숨김 여부 : {active ? '' : '숨김'}
+          </Card.Text>
           <Link to={`/board/${boardNo}`} className="btn btn-primary">글 수정</Link>
+          {" "}
           <Button variant="warning" onClick={deleteBoard}>글 삭제</Button>
         </Card.Body>
       </Card>

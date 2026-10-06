@@ -1,50 +1,44 @@
 import { useEffect, useState } from 'react';
 import { Button, Card, Container } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { toBoardTypeLabel } from '../../util/BoardType';
+import { formatLocal } from '../../util/formatLocal';
+
+const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
 const BoardDetail = (props) => {
   const propsParam = useParams();
-  const board_no = propsParam.board_no;
-  const navigate = useNavigate();
+  const boardNo = propsParam.board_no;
+  const boardType = propsParam.board_type;
+  const title = toBoardTypeLabel(boardType);
+
   const [board, setBoard] = useState({
-    board_no: 0,
-    board_title: '',
-    board_content: '',
-    board_writer: ''
+    title: '',
+    content: '',
+    updatedDate: ''
   });
   useEffect(() => {
-    fetch("http://localhost:8081/api/board/" + board_no)
+    fetch(`${BACKEND_API_BASE_URL}/board-service/board/detail/${boardNo}`)
       .then(res => res.json())
       .then(res => setBoard(res));
   }, []);
-  const updateBoard = () => navigate('/updateForm/' + board_no);
-  const deleteBoard = () => {
-    fetch("http://localhost:8081/api/board/" + board_no, {
-      method: "DELETE"
-    }).then(res => res.text())
-      .then(res => {
-        if (res === 'OK') {
-          navigate('/boardList');
-        } else {
-          alert('삭제 실패');
-        }
-      });
-  };
   return (
     <div>
       <Container>
+        <br /><br />
+        <h3>{title}</h3>
+        <hr /><br />
         <Card>
           <Card.Body>
-            <Card.Title>글번호 : {board.board_no}</Card.Title>
-            <Card.Title>글제목 : {board.board_title}</Card.Title>
-            <Card.Title>글내용 : {board.board_content}</Card.Title>
-            <Card.Title>작성자 : {board.board_writer}</Card.Title>
+            <Card.Title>{board.title}</Card.Title>
+            <Card.Text>
+              <small className="text-muted">{formatLocal(board.updatedDate)}</small>
+            </Card.Text>
+            <Card.Text>{board.content}</Card.Text>
           </Card.Body>
         </Card>
         <br />
-        <Button variant='warning' onClick={updateBoard}>수정</Button>
-        {' '}
-        <Button variant='success' onClick={deleteBoard}>삭제</Button>
+        <Button as={Link} variant="success" to={`/board/${boardType}`}>돌아가기</Button>
       </Container>
     </div>
   );

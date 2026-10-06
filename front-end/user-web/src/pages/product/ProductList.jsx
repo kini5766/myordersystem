@@ -17,9 +17,9 @@ const ProductList = () => {
   return (
     <div>
       <Container>
-        <br /><hr />
-        <h3>제품 목록</h3>
         <br /><br />
+        <h3>제품 목록</h3>
+        <hr /><br />
         {productList !== null ? productList.map(product =>
           <ProductItem key={product.id} product={product} />
         ) : <>제품이 없습니다.</>}

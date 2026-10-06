@@ -30,7 +30,7 @@ const BoardList = () => {
       <Container>
         <br />
         <br />
-        <h3>BoardList</h3>
+        <h3>공지/이벤트</h3>
         <Button variant="success" as={Link} to="/board/write">글쓰기</Button>
         <hr />
         <br />

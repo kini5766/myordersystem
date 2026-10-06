@@ -18,9 +18,9 @@ const OrderingList = () => {
   return (
     <div>
       <Container>
-        <br /><hr />
-        <h3>주문 목록</h3>
         <br /><br />
+        <h3>주문 목록</h3>
+        <hr /><br />
         {orderingList !== null ? orderingList.map(ordering =>
           <OrderingItem key={ordering.id} ordering={ordering} />
         ) : <>주문이 없습니니다.</>}

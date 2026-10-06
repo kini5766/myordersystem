@@ -47,8 +47,9 @@ const ProductUpdateForm = () => {
   return (
     <div>
       <Container>
-        <br />
+        <br /><br />
         <h3>제품 수정</h3>
+        <hr /><br />
         <Form onSubmit={submitProduct}>
           <Form.Group className='mb-3' controlId='formBasicEmail'>
             <Form.Label>제품명</Form.Label>

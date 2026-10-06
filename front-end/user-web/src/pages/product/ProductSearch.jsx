@@ -21,9 +21,9 @@ const ProductSearch = (props) => {
   return (
     <div>
       <Container>
-        <br /><hr />
-        <h3>제품 검색:{search}</h3>
         <br /><br />
+        <h3>제품 검색:{search}</h3>
+        <hr /><br />
         {productList !== null ? productList.map(product =>
           <ProductItem key={product.id} product={product} />
         ) : <>검색 결과가 없습니다.</>}

@@ -58,6 +58,7 @@ public class GatewaySecurityConfig {
                                 "/product-service/product/list",
                                 "/product-service/product/search/*",
                                 "/product-service/product/detail/*"
+                                "/board-service/board/list/*",
                         ).permitAll()
                         .pathMatchers("/*/admin/**").hasRole("ADMIN")
                         .anyExchange().authenticated()

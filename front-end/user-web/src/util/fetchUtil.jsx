@@ -1,19 +1,15 @@
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
 export function login(data) {
-  localStorage.setItem("id", data.memberId);
   localStorage.setItem("accessToken", data.accessToken);
   localStorage.setItem("refreshToken", data.refreshToken);
   window.location.href = "/user";
 }
 
 export function logout() {
-  let refreshToken = localStorage.getItem("refreshToken");
-
-  localStorage.removeItem("id");
+  const refreshToken = localStorage.getItem("refreshToken");
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
-  window.location.href = "/login";
   
   fetch(`${BACKEND_API_BASE_URL}/member-service/member/logout`, {
     method: "POST",
@@ -22,6 +18,8 @@ export function logout() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({ refreshToken })
+  }).finally(() => {
+    window.location.href = "/login";
   });
 }
 
@@ -37,10 +35,9 @@ export async function refreshAccessToken() {
   if (!response.ok) throw new Error("AccessToken 갱신 실패");
 
   const data = await response.json();
-  localStorage.setItem("id", data.memberId);
   localStorage.setItem("accessToken", data.accessToken);
   localStorage.setItem("refreshToken", data.refreshToken);
-
+  
   return data.accessToken;
 }
 
@@ -56,8 +53,7 @@ export async function fetchWithAccess(url, options = {}) {
       options.headers["Authorization"] = `Bearer ${accessToken}`;
       response = await fetch(url, options);
     } catch (err) {
-      console.log(err)
-      localStorage.removeItem("id");
+      console.log(err);
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       window.location.href = "/login";
@@ -72,11 +68,16 @@ export async function fetchWithAccess(url, options = {}) {
 }
 
 export function hasAccess() {
-  return localStorage.getItem("accessToken") !== null;
+  return !!localStorage.getItem("accessToken");
 }
 
 export function isMine(memberId) {
-  console.log(`${memberId} : ${localStorage.getItem("id")}`)
-  return hasAccess()
-      && localStorage.getItem("id") == memberId;
+  const token = localStorage.getItem("accessToken");
+  if (!token) return false;
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return String(payload.sub) === String(memberId);
+  } catch {
+    return false;
+  }
 }

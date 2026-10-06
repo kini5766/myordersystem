@@ -45,8 +45,9 @@ const ProductWriteForm = () => {
   return (
     <div>
       <Container>
-        <br /><hr />
+        <br /><br />
         <h3>제품 등록</h3>
+        <hr /><br />
         <Form onSubmit={submitProduct}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>제품명</Form.Label>

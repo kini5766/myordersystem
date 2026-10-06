@@ -21,7 +21,7 @@ function UserPage() {
         setUserInfo(data);
       } catch (err) {
         console.error(err);
-        // setError("유저 정보를 불러오지 못했습니다.");
+        setUserInfo("유저 정보를 불러오지 못했습니다.");
       }
     };
     userInfo();
@@ -30,8 +30,9 @@ function UserPage() {
   return (
     <div>
       <Container>
-        <br /><hr />
+        <br /><br />
         <h3>내 정보</h3>
+        <hr /><br />
         <p>이메일: {userInfo?.email}</p>
         <p>닉네임: {userInfo?.name}</p>
       </Container>
