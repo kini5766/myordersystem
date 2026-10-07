@@ -1,5 +1,6 @@
 package com.example.msa_chohj.board.domain;
 
+import com.example.msa_chohj.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Getter
-public class BoardDisplayPost {
+public class BoardDisplayPost extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;

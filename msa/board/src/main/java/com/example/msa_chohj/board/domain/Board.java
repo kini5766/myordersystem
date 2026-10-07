@@ -23,7 +23,9 @@ public class Board extends BaseTimeEntity {
 
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
+
+    @Lob
+    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String content;
 
     public void modify(
