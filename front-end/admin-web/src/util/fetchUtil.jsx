@@ -7,7 +7,7 @@ export function login(data) {
 }
 
 export function logout() {
-  let refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken = localStorage.getItem("refreshToken");
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   
